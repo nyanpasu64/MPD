@@ -55,6 +55,7 @@
 #include <memory>
 
 #include <string.h>
+#include <unistd.h> // for usleep
 
 static constexpr Domain player_domain("player");
 
@@ -446,6 +447,7 @@ Player::ActivateDecoder() noexcept
 		/* call playlist::SyncWithPlayer() in the main thread */
 		const ScopeUnlock unlock(pc.mutex);
 		pc.listener.OnPlayerSync();
+		usleep(10'000);
 	}
 }
 
