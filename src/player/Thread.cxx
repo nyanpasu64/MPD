@@ -721,6 +721,11 @@ Player::ProcessCommand(std::unique_lock<Mutex> &lock) noexcept
 		assert(!queued);
 		assert(!IsDecoderAtNextSong());
 
+		// We cannot start a new decoder job while we're waiting to read
+		// metadata from the last decoder job.
+		if (decoder_starting)
+			break;
+
 		queued = true;
 		pc.CommandFinished();
 
